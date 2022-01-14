@@ -72,7 +72,13 @@ router.put('/:id', (req, res) => {
       }
     }
   )
-  .then(dbData => res.json(dbData))
+  .then(dbData => {
+    if (!dbData) {
+      res.status(404).json({ message: 'No tag with this id' });
+      return;
+    }
+    res.json(dbData)
+  })
   .catch(err => {
     console.log(err);
     res.status(404).json(err);
@@ -88,7 +94,7 @@ router.delete('/:id', (req, res) => {
   })
   .then(dbData => {
     if (!dbData) {
-      res.status(404), json({ message: 'No category with this ID' });
+      res.status(404), json({ message: 'No tag with this ID' });
       return;
     }
     res.json(dbData);
